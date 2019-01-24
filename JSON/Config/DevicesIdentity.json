@@ -1,0 +1,11 @@
+{
+"1": {"Name":"DPC501",
+	"IPAddress":"192.168.0.65",
+	"SNMPPort": 161,
+	"SNMPVersion" : 2,
+	"SNMPReadCommunity": "public",
+	"SNMPWriteCommunity": "public",
+	"AccessToken": "dpc_501",
+	"Timeout": 1
+	}
+}
