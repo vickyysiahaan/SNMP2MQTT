@@ -24,9 +24,9 @@ class Device():
         i = 0
         for opr in range(self.operation):
             try: 
-                data = self.dev.get(oids[i:i+dataPerAccess])
+                data = self.dev.get(OIDList[i:i+dataPerAccess])
             except:
-                data = self.dev.get(oids[i:])
+                data = self.dev.get(OIDList[i:])
 
             for item in data:
                 self.values.append(int(item.value))
@@ -52,9 +52,9 @@ class Device():
         i = 0
         for opr in range(self.operation):
             try: 
-                data = self.dev.get(oids[i:i+dataPerAccess])
+                data = self.dev.get(OIDList[i:i+dataPerAccess])
             except:
-                data = self.dev.get(oids[i:])
+                data = self.dev.get(OIDList[i:])
 
             for item in data:
                 self.values.append(str(item.value))
@@ -111,19 +111,28 @@ class Device():
     
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ WRITE METHODS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     # Method to write a value in single OID
-    def write(self, OID, value):
+    def write(self, OID, value, snmp_type=None):
         # Arguments:
-        # OID   :   object identifier of a variable
-        # value :   value that you want to write in the OID
+        # OID       :   object identifier of a variable
+        # value     :   value that you want to write in the OID
+        # snmp_type :   data type in object
+        #               
 
-        self.dev.set(registerAddress, value)
+        if snmp_type == None:
+            self.dev.set(registerAddress, value)
+        else:
+            self.dev.set(registerAddress, value, snmp_type)
 
     # Method to write values in multiple OIDs
-    def write_multiple(self, OIDList, valueList):
+    def write_multiple(self, OIDList, valueList, snmp_type=None):
         # Arguments:
         # OIDList   :   list of object identifier
         # valueList :   list of value
 
-        oid_val = list(zip(OIDList,valueList))
-        self.dev.set_multiple(oid_val)
+        if snmp_type == None:
+            oid_val = list(zip(OIDList,valueList))
+            self.dev.set_multiple(oid_val)
+        else:
+            oid_val = list(zip(OIDList,valueList,snmp_type))
+            self.dev.set_multiple(oid_val)
     

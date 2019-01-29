@@ -5,7 +5,7 @@
 	"SNMPVersion" : 2,
 	"SNMPReadCommunity": "public",
 	"SNMPWriteCommunity": "public",
-	"AccessToken": "dpc_501",
+	"AccessToken": "dpcdpc",
 	"Timeout": 1
 	}
 }

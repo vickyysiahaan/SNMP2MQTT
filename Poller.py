@@ -71,27 +71,51 @@ def PollerPerDevice(did,Device_Identity):
                 print("FAILED Connection to", DevName)
                 
             Data = {}
-
+            
             ### Read Numeric Variable in Table OID
-            if len(Tab_Num_Var_List[did-1]) != 0:
-                NumVarTabData = device.read_num_tab(Tab_Num_Var_List[did-1], Tab_Num_OID_List[did-1], Tab_Num_TotRow_List[did-1], Tab_Num_Mul_List[did-1])
-                Data.update(NumVarTabData)
-                
+            #print("NumVarTabData")
+            for dtype in NUMERIC:
+                command="""
+#print(Tab_%s_Var_List[did-1])
+if len(Tab_%s_Var_List[did-1]) != 0:
+    NumVarTabData = device.read_num_tab(Tab_%s_Var_List[did-1], Tab_%s_OID_List[did-1], Tab_%s_TotRow_List[did-1], Tab_%s_Mul_List[did-1])
+    Data.update(NumVarTabData)
+    #print(NumVarTabData)
+                """%(dtype,dtype,dtype,dtype,dtype,dtype)
+                exec(command)
             ### Read String Variable in Table OID
-            if len(Tab_Str_Var_List[did-1]) != 0:
-                StrVarTabData = device.read_string_tab(Tab_Str_Var_List[did-1], Tab_Str_OID_List[did-1], Tab_Str_TotRow_List[did-1])
-                Data.update(StrVarTabData)
-                
+            #print("StrVarTabData")
+            for dtype in STRING:
+                command="""
+#print(Tab_%s_Var_List[did-1])
+if len(Tab_%s_Var_List[did-1]) != 0:
+    StrVarTabData = device.read_string_tab(Tab_%s_Var_List[did-1], Tab_%s_OID_List[did-1], Tab_%s_TotRow_List[did-1])
+    Data.update(StrVarTabData)
+    #print(StrVarTabData)
+                """%(dtype,dtype,dtype,dtype,dtype)
+                exec(command)
             ### Read Numeric Variable in regular OID
-            if len(Num_Var_List[did-1]) != 0:
-                NumVarData = device.read_num(Num_Var_List[did-1], Num_OID_List[did-1], Num_Mul_List[did-1])
-                Data.update(NumVarData)
-                
+            #print("NumVarData")
+            for dtype in NUMERIC:
+                command = """
+#print(%s_Var_List[did-1])
+if len(%s_Var_List[did-1]) != 0:
+    NumVarData = device.read_num(%s_Var_List[did-1], %s_OID_List[did-1], %s_Mul_List[did-1])
+    Data.update(NumVarData)
+    #print(NumVarData)
+                """%(dtype,dtype,dtype,dtype,dtype)
+                exec(command)
             ### Read String Variable in regular OID
-            if len(Str_Var_List[did-1]) != 0:
-                StrVarData = device.read_string(Str_Var_List[did-1], Str_OID_List[did-1])
-                Data.update(StrVarData)
-                
+            #print("StrVarData")
+            for dtype in STRING:
+                command = """
+#print(%s_Var_List[did-1])
+if len(%s_Var_List[did-1]) != 0:
+    StrVarData = device.read_string(%s_Var_List[did-1], %s_OID_List[did-1])
+    Data.update(StrVarData)
+    #print(StrVarData)
+                """%(dtype,dtype,dtype,dtype)
+                exec(command)
             tPoll1 = time.time()    #end polling time
                 
             #PollingDuration = round(tPoll1-tPoll0, 2)
@@ -130,7 +154,7 @@ def PollerPerDevice(did,Device_Identity):
                 i += 1
                 
             time.sleep(PollingInterval)
-            device.close()
+            
         except KeyboardInterrupt:
             mqtt_client.loop_stop()
             print('Interrupted')

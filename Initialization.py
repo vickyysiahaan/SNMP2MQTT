@@ -34,6 +34,7 @@ for i in range(0,len(TopicList)):
 
 #Variables Identity
 AllVar = list()
+AllVarName = list()
 for i in range(1,DevNum+1):
     with open(FolderPath + '/JSON/Config/Device%dVariables.json' %i) as json_data:
         Var=json.load(json_data)
@@ -41,6 +42,7 @@ for i in range(1,DevNum+1):
         VarNum = len(VarID)
 
         _VarID = list()
+        AllVarName.append([])
         for j in range(0,VarNum):
             varid = list(VarID[j].values())
             _VarID.append(varid)
@@ -48,54 +50,88 @@ for i in range(1,DevNum+1):
             varName = varid[0]
             for topic in varTopic:
                 VarsPerTopic[topic-1][i-1].append(varName)
+            AllVarName[i-1].append(varName)
         AllVar.append(_VarID)
 #print(AllVar)
+#print(AllVarName)
 #print(VarsPerTopic)
         
 #### Classify variables based on their oid type and data type ####
 ## Initialization ##
-# Numeric Variable in Table OID
-Tab_Num_Var_List = list()
-Tab_Num_OID_List = list()
-Tab_Num_TotRow_List = list()
-Tab_Num_Mul_List = list()
+# All Numeric Variables in Table OID
+for dtype in NUMERIC:
+    command = """
+Tab_%s_Var_List = list()
+Tab_%s_OID_List = list()
+Tab_%s_TotRow_List = list()
+Tab_%s_Mul_List = list()
+"""%(dtype,dtype,dtype,dtype)
+    exec(command)
 
-# String Variable in Table OID
-Tab_Str_Var_List = list()
-Tab_Str_OID_List = list()
-Tab_Str_TotRow_List = list()
+# All String Variables in Table OID
+for dtype in STRING:
+    command = """
+Tab_%s_Var_List = list()
+Tab_%s_OID_List = list()
+Tab_%s_TotRow_List = list()
+"""%(dtype,dtype,dtype)
+    exec(command)
 
-# Numeric Variable in regular OID
-Num_Var_List = list()
-Num_OID_List = list()
-Num_Mul_List = list()
+# All Numeric Variables in regular OID
+for dtype in NUMERIC:
+    command = """
+%s_Var_List = list()
+%s_OID_List = list()
+%s_Mul_List = list()
+"""%(dtype,dtype,dtype)
+    exec(command)
 
-# String Variable in regular OID
-Str_Var_List = list()
-Str_OID_List = list()
+# All String Variables in regular OID
+for dtype in STRING:
+    command = """
+%s_Var_List = list()
+%s_OID_List = list()
+"""%(dtype,dtype)
+    exec(command)
 
 ## Start to fill blank lists above ##
 for i in range(0,DevNum):
-    # Numeric Variable in Table OID
-    Tab_Num_Var_List.append(list())
-    Tab_Num_OID_List.append(list())
-    Tab_Num_TotRow_List.append(list())
-    Tab_Num_Mul_List.append(list())
+    # All Numeric Variables in Table OID
+    for dtype in NUMERIC:
+        command = """
+Tab_%s_Var_List.append(list())
+Tab_%s_OID_List.append(list())
+Tab_%s_TotRow_List.append(list())
+Tab_%s_Mul_List.append(list())
+"""%(dtype,dtype,dtype,dtype)
+        exec(command)
 
-    # String Variable in Table OID
-    Tab_Str_Var_List.append(list())
-    Tab_Str_OID_List.append(list())
-    Tab_Str_TotRow_List.append(list())
+    # All String Variables in Table OID
+    for dtype in STRING:
+        command = """
+Tab_%s_Var_List.append(list())
+Tab_%s_OID_List.append(list())
+Tab_%s_TotRow_List.append(list())
+"""%(dtype,dtype,dtype)
+        exec(command)
 
-    # Numeric Variable in regular OID
-    Num_Var_List.append(list())
-    Num_OID_List.append(list())
-    Num_Mul_List.append(list())
+    # All Numeric Variables in regular OID
+    for dtype in NUMERIC:
+        command = """
+%s_Var_List.append(list())
+%s_OID_List.append(list())
+%s_Mul_List.append(list())
+"""%(dtype,dtype,dtype)
+        exec(command)
 
-    # String Variable in regular OID
-    Str_Var_List.append(list())
-    Str_OID_List.append(list())
-    
+    # All String Variables in regular OID
+    for dtype in STRING:
+        command = """
+%s_Var_List.append(list())
+%s_OID_List.append(list())
+"""%(dtype,dtype)
+        exec(command)
+
     for j in range(0,len(AllVar[i])):
         VarName = AllVar[i][j][0]
         OID = AllVar[i][j][1]
@@ -103,50 +139,84 @@ for i in range(0,DevNum):
         isTable = AllVar[i][j][3]
         TotalRow = AllVar[i][j][4]
         Multiplier = AllVar[i][j][5]
+        Access = AllVar[i][j][7]
 
-        
         if isTable:
-            if DataType == NUMERIC:
-                Tab_Num_Var_List[i].append(VarName)
-                Tab_Num_OID_List[i].append(OID)
-                Tab_Num_TotRow_List[i].append(TotalRow)
-                Tab_Num_Mul_List[i].append(Multiplier)
-            elif DataType == STRING:
-                Tab_Str_Var_List[i].append(VarName)
-                Tab_Str_OID_List[i].append(OID)
-                Tab_Str_TotRow_List[i].append(TotalRow)
+            if DataType in NUMERIC:
+                command = """
+Tab_%s_Var_List[i].append(VarName)
+Tab_%s_OID_List[i].append(OID)
+Tab_%s_TotRow_List[i].append(TotalRow)
+Tab_%s_Mul_List[i].append(Multiplier)
+"""%(DataType,DataType,DataType,DataType)
+                exec(command)
+            elif DataType in STRING:
+                command = """
+Tab_%s_Var_List[i].append(VarName)
+Tab_%s_OID_List[i].append(OID)
+Tab_%s_TotRow_List[i].append(TotalRow)
+"""%(DataType,DataType,DataType)
+                exec(command)
         else:
-            if DataType == NUMERIC:
-                Num_Var_List[i].append(VarName)
-                Num_OID_List[i].append(OID)
-                Num_Mul_List[i].append(Multiplier)
-            elif DataType == STRING:
-                Str_Var_List[i].append(VarName)
-                Str_OID_List[i].append(OID)
+            if DataType in NUMERIC:
+                command = """
+%s_Var_List[i].append(VarName)
+%s_OID_List[i].append(OID)
+%s_Mul_List[i].append(Multiplier)
+"""%(DataType,DataType,DataType)
+                exec(command)
+            elif DataType in STRING:
+                command = """
+%s_Var_List[i].append(VarName)
+%s_OID_List[i].append(OID)
+"""%(DataType,DataType)
+                exec(command)
 
-#For Debugging
-# Numeric Variable in Table OID
 '''
-print("\nNumeric Variable in Table OID")
-print(Tab_Num_Var_List)
-print(Tab_Num_OID_List)
-print(Tab_Num_TotRow_List)
-print(Tab_Num_Mul_List)
+#For Debugging
+# Numeric Variable in Table OID    
+print("\nAll Numeric Variables in Table OID")
+for dtype in NUMERIC:
+    print("===",dtype,"===")
+    command = """
+print(Tab_%s_Var_List)
+print(Tab_%s_OID_List)
+print(Tab_%s_TotRow_List)
+print(Tab_%s_Mul_List)
+"""%(dtype,dtype,dtype,dtype)
+    exec(command)
 
 # String Variable in Table OID
-print("\nString Variable in Table OID")
-print(Tab_Str_Var_List)
-print(Tab_Str_OID_List)
-print(Tab_Str_TotRow_List)
+print("\nAll String Variables in Table OID")
+for dtype in STRING:
+    print("===",dtype,"===")
+    command = """
+print(Tab_%s_Var_List)
+print(Tab_%s_OID_List)
+print(Tab_%s_TotRow_List)
+"""%(dtype,dtype,dtype)
+    exec(command)
 
 # Numeric Variable in regular OID
-print("\nNumeric Variable in regular OID")
-print(Num_Var_List)
-print(Num_OID_List)
-print(Num_Mul_List)
+print("\nAll Numeric Variables in regular OID")
+for dtype in NUMERIC:
+    print("===",dtype,"===")
+    command = """
+print(%s_Var_List)
+print(%s_OID_List)
+print(%s_Mul_List)
+"""%(dtype,dtype,dtype)
+    exec(command)
 
 # String Variable in regular OID
-print("\nString Variable in regular OID")
-print(Str_Var_List) 
-print(Str_OID_List)
+print("\nAll String Variables in regular OID")
+for dtype in STRING:
+    print("===",dtype,"===")
+    command = """
+print(%s_Var_List)
+print(%s_OID_List)
+"""%(dtype,dtype)
+    exec(command)
 '''
+
+#print("Initialization Finished")

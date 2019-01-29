@@ -11,8 +11,8 @@ class DataBase(object):
                               host = "localhost",
                               #user = "gspe",
                               user = "root",
-                              #passwd = "gspe-intercon",
-                              passwd = "",
+                              passwd = "gspe-intercon",
+                              #passwd = "",
                               db = "SNMP2MQTT")
         
         self.cursor = self.connection.cursor()
