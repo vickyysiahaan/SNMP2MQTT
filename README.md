@@ -69,8 +69,6 @@ What you need to know:
    
    python3.6 Control.py --DeviceNo 1 --VarName acInputOverVoltageValue,acInputUnderVoltageValue --Value 250.4,178.5
    
-   this command will set acInputOverVoltageValue to 250.4 and acInputUnderVoltageValue to 178.5
+   this command will set acInputOverVoltageValue to 250.4 and acInputUnderVoltageValue to 178.5 in the first Device
    
-
-
 # SNMP2MQTT
