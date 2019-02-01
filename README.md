@@ -1,6 +1,6 @@
 What you need to know:
 1. I recommend you to: 
-	- have a basic knowledge about SNMP (iReasoning MIB Browser is a perfect tool for you to learn this)
+	- have a basic knowledge about SNMP (iReasoning MIB Browser is a useful tool for you to learn this)
 	- use python3.6 or later.
 
    Python modules needed:
