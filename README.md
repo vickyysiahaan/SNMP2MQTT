@@ -37,6 +37,7 @@ What you need to know:
 	  
 	  Timeout		: 1
 	  
+	  
    b. MQTTConfig.json 
       contains settings for mqtt communication and polling interval.
       
@@ -47,7 +48,8 @@ What you need to know:
 	  MQTTPort		: mqtt broker port
 	  
 	  TopicList		: mqtt topic list. for example: ["v1/devices/me/telemetry", "v1/devices/me/attributes"]
-							  
+	
+	
    c. DeviceVariables.json
       contains list of variables in each device with its OID, Datatype, etc.
       
@@ -68,8 +70,10 @@ What you need to know:
 	  
 	  Access	:	R  >> for read-only OID
 				RW >> for read-write OID
-	  
+	
+	
 4. To begin data polling, just run the Poller.py. The program will automatically publish the data to mqtt topic periodically, based on the polling interval. The result can also be seen in JSON/Result
+
 
 5. Device control (SNMP Set) via MQTT is still in development. But you can do SNMP set operation via  Control.py directly.
 
