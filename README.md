@@ -20,58 +20,34 @@ What you need to know:
 
    a. DevicesIdentity.json 
       contains information about devices identity.
-      
-	  Name			: Name of the device,
-	  
-	  IPAddress		: device ip address,
-	  
-	  SNMPPort		: snmp port of the device,
-	  
-	  SNMPVersion		: snmp version of the device,
-	  
-	  SNMPReadCommunity	: read community,
-	  
-	  SNMPWriteCommunity	: write community,
-	  
-	  AccessToken		: mqtt username (for authentication with mqtt broker),
-	  
-	  Timeout		: 1
+      - Name			: Name of the device
+      - IPAddress		: device ip address
+      - SNMPPort		: snmp port of the device
+      - SNMPVersion		: snmp version of the device
+      - SNMPReadCommunity	: read community
+      - SNMPWriteCommunity	: write community
+      - AccessToken		: mqtt username (for authentication with mqtt broker),
+      - Timeout			: timeout limit for the device
 	  
 	  
    b. MQTTConfig.json 
       contains settings for mqtt communication and polling interval.
-      
-	  PollingInterval	: interval of devices data polling 
-	  
-	  BrokerHOST		: mqtt broker address
-	  
-	  MQTTPort		: mqtt broker port
-	  
-	  TopicList		: mqtt topic list. for example: ["v1/devices/me/telemetry", "v1/devices/me/attributes"]
+      - PollingInterval	: interval of devices data polling 
+      - BrokerHOST		: mqtt broker address
+      - MQTTPort		: mqtt broker port
+      - TopicList		: mqtt topic list. for example: ["v1/devices/me/telemetry", "v1/devices/me/attributes"]
 	
 	
    c. DeviceVariables.json
       contains list of variables in each device with its OID, Datatype, etc.
-      
-	  Name 		: 	name of the variable
-	  
-	  OID  		: 	Object identifier of the variable
-	  
-	  Datatype	: 	"INTEGER", "INTEGER32", "UINTEGER", "OCTETSTRING", "OID", "IPADDRESS"
-	  
-	  isTable	: 	1 >> if the oid is in table oid,
-	  
-				0 >> if the oid is in regular oid (not in a table)
-				
-	  TotalRow	: 	number of row that want to be read in the OID (this is a maxrepetition in GetBulk operation)
-	  
-	  Multiplier	: 	Value of this variable will be multiplied with this value (if you need numerical data processing)
-	  
-	  PublishTopic	: 	mqtt topic index in TopicList. The variable value will be published on this topic.
-	  
-	  Access	:	R  >> for read-only OID,
-	  
-				RW >> for read-write OID
+      - Name 		: 	name of the variable
+      - OID  		: 	Object identifier of the variable
+      - Datatype	: 	"INTEGER", "INTEGER32", "UINTEGER", "OCTETSTRING", "OID", "IPADDRESS"
+      - isTable	: 	1 >> if the oid is in table oid, 0 >> if the oid is in regular oid (not in a table)
+      - TotalRow	: 	number of row that want to be read in the OID (this is a maxrepetition in GetBulk operation)
+      - Multiplier	: 	Value of this variable will be multiplied with this value (if you need numerical data processing)
+      - PublishTopic	: 	mqtt topic index in TopicList. The variable value will be published on this topic.
+      - Access	:	R  >> for read-only OID, RW >> for read-write OID
 	
 	
 4. To begin data polling, just run the Poller.py. The program will automatically publish the data to mqtt topic periodically, based on the polling interval. The result can also be seen in JSON/Result
