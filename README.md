@@ -1,3 +1,7 @@
+# SNMP2MQTT
+
+This a python program to read data from SNMP devices and then publish them to mqtt topics. Configuration can be set by only editing JSON files.
+
 What you need to know:
 1. I assume you: 
 	- have a basic knowledge about SNMP (if you are a beginner, iReasoning MIB Browser might be an useful tool for you to learn this)
@@ -71,4 +75,3 @@ What you need to know:
    
    this command will set acInputOverVoltageValue to 250.4 and acInputUnderVoltageValue to 178.5 in the first Device
    
-# SNMP2MQTT
