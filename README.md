@@ -59,7 +59,8 @@ What you need to know:
 	  
 	  Datatype	: 	"INTEGER", "INTEGER32", "UINTEGER", "OCTETSTRING", "OID", "IPADDRESS"
 	  
-	  isTable	: 	1 >> if the oid is in table oid
+	  isTable	: 	1 >> if the oid is in table oid,
+	  
 				0 >> if the oid is in regular oid (not in a table)
 				
 	  TotalRow	: 	number of row that want to be read in the OID (this is a maxrepetition in GetBulk operation)
@@ -68,7 +69,8 @@ What you need to know:
 	  
 	  PublishTopic	: 	mqtt topic index in TopicList. The variable value will be published on this topic.
 	  
-	  Access	:	R  >> for read-only OID
+	  Access	:	R  >> for read-only OID,
+	  
 				RW >> for read-write OID
 	
 	
